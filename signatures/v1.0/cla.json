@@ -1,0 +1,16 @@
+{
+  "version": "1.0",
+  "document": ".github/CLA-1.0.md",
+  "signatures": [
+    {
+      "login": "dutch2005",
+      "id": 3473864,
+      "pull_request": 2,
+      "comment_id": 6446227416,
+      "signed_at": "2026-10-27T15:33:54Z",
+      "version": "1.0",
+      "repo_id": 1424874653,
+      "body_sha256": "68373bd26e08925633b3d2a581279ad7223f429986a0db959d18423a7dc4d7b5"
+    }
+  ]
+}
