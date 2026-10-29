@@ -2044,45 +2044,103 @@ _mimetypes.add_type("audio/flac", ".flac")
 # once ready. No torch import pre-ready — it would block 10-20s on the very
 # import whose progress this endpoint exists to report.
 _health_device: str | None = None
+_health_engine: str | None = None
+_health_device_at = 0.0  # time.monotonic() of the last resolve
 _health_device_lock = threading.Lock()
 _health_device_thread: threading.Thread | None = None
+# The active engine can change at runtime (Settings picker), so the cached
+# label is refreshed in the background once it is this old.
+_HEALTH_DEVICE_TTL_S = 60.0
 
 
-def _probe_health_device() -> str:
-    """Name the compute device. Blocking: imports torch and may initialise the
-    CUDA driver, which can take seconds and stall behind a busy GPU."""
+def _torch_device_label() -> str:
+    """This process's PyTorch device. ROCm presents through ``torch.cuda``, so
+    ``torch.version.hip`` tells it apart from CUDA."""
     import torch
 
     if torch.cuda.is_available():
-        return f"cuda ({torch.cuda.get_device_name(0)})"
+        family = "rocm" if getattr(torch.version, "hip", None) else "cuda"
+        return f"{family} ({torch.cuda.get_device_name(0)})"
+    xpu = getattr(torch, "xpu", None)
+    if xpu is not None and xpu.is_available():
+        return f"xpu ({xpu.get_device_name(0)})"
     if hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
         return "mps"
     return "cpu"
 
 
+def _probe_health_device() -> str:
+    """Name the device the active TTS engine generates on.
+
+    Native sidecars (CosyVoice GGUF on Vulkan, …) choose their accelerator
+    independently of this process's PyTorch, so a torch-only probe said "cpu"
+    for a Vulkan-accelerated engine. The engine's runtime compute profile is
+    the same source the generation routing gate uses; torch is the fallback
+    when the engine cannot say. Blocking: may import torch, initialise a GPU
+    driver or run a native backend probe.
+    """
+    try:
+        from core.device_caps import detect_host_caps
+        from services.engine_routing import runtime_compute_profile
+        from services.tts_backend import active_backend_id, get_backend_class
+
+        caps = detect_host_caps()
+        profile = runtime_compute_profile(get_backend_class(active_backend_id()), caps)
+        if profile.get("routing_status") != "unavailable":
+            family = str(profile.get("effective_device") or "cpu")
+            if family == "cpu":
+                return "cpu"
+            name = profile.get("runtime_device_name") or (
+                caps.device_name if family == caps.family else ""
+            )
+            return f"{family} ({name})" if name else family
+    except Exception:  # noqa: BLE001 - fall back to the torch device below
+        logger.debug("health: engine compute profile unavailable", exc_info=True)
+    return _torch_device_label()
+
+
+def _probe_health_engine() -> str | None:
+    from services.tts_backend import active_backend_id
+
+    return active_backend_id()
+
+
 def _resolve_health_device() -> None:
-    global _health_device
+    global _health_device, _health_engine, _health_device_at
+    try:
+        _health_engine = _probe_health_engine()
+    except Exception:  # noqa: BLE001 - a liveness label must never fail a probe
+        _health_engine = None
     try:
         _health_device = _probe_health_device()
     except Exception:  # noqa: BLE001 - a liveness label must never fail a probe
         _health_device = "unknown"
+    _health_device_at = time.monotonic()
 
 
 def _cached_health_device() -> str:
     """The device label without ever blocking the caller.
 
     The first call starts one background resolver and answers "unknown"; every
-    later call returns the cached label. /health is the shell's liveness probe,
-    polled every 2 s for the life of the app with a 1.5 s deadline, so it must
-    cost O(1): re-asking torch/the CUDA driver on each probe, from a worker
-    thread competing with a generation for the GIL and the driver, is how a
-    healthy, busy backend got reported as "not responding" (#2490, #2491).
+    later call returns the cached label, and a label older than
+    ``_HEALTH_DEVICE_TTL_S`` is refreshed by one background resolver while the
+    old one is still served. /health is the shell's liveness probe, polled
+    every 2 s for the life of the app with a 1.5 s deadline, so it must cost
+    O(1): re-asking torch/the CUDA driver on each probe, from a worker thread
+    competing with a generation for the GIL and the driver, is how a healthy,
+    busy backend got reported as "not responding" (#2490, #2491).
     """
     global _health_device_thread
-    if _health_device is not None:
+    stale = (
+        _health_device is not None
+        and time.monotonic() - _health_device_at >= _HEALTH_DEVICE_TTL_S
+    )
+    if _health_device is not None and not stale:
         return _health_device
     with _health_device_lock:
-        if _health_device is None and _health_device_thread is None:
+        idle = _health_device_thread is None or not _health_device_thread.is_alive()
+        first = _health_device is None and _health_device_thread is None
+        if first or (stale and idle):
             _health_device_thread = threading.Thread(
                 target=_resolve_health_device, name="health-device", daemon=True
             )
@@ -2108,7 +2166,12 @@ async def health():
             },
             headers={"Retry-After": "2"},
         )
-    return {"status": "ok", "device": _cached_health_device(), "version": APP_VERSION}
+    return {
+        "status": "ok",
+        "device": _cached_health_device(),
+        "engine": _health_engine,
+        "version": APP_VERSION,
+    }
 
 
 # ── Startup progress ────────────────────────────────────────────────────
