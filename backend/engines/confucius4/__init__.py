@@ -97,6 +97,13 @@ class Confucius4Backend(SubprocessBackend):
         return resolve_confucius4_venv()
 
     @classmethod
+    def sidecar_python_hint(cls):
+        from services.subprocess_backend import bootstrap_python_hint
+
+        from engines.confucius4 import bootstrap
+        return bootstrap_python_hint(bootstrap)
+
+    @classmethod
     def sidecar_script(cls):
         from engines.confucius4.bootstrap import CONFUCIUS4_SIDECAR_SCRIPT
         return CONFUCIUS4_SIDECAR_SCRIPT

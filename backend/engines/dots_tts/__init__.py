@@ -20,7 +20,9 @@ Windows** — and its device code is **CUDA-or-CPU with no MPS branch**
   * ``is_available()`` returns ``False`` with a clear reason on **Windows**
     rather than offering an engine that can't run there. Windows users are
     pointed at WSL2 / a Linux or macOS host.
-  * ``gpu_compat = ("cuda", "cpu")`` — no MPS claim. On Apple Silicon the
+  * ``gpu_compat = ("cuda", "rocm", "cpu")`` — ROCm through a HIP torch in
+    the sidecar venv (honesty-checked per venv by SubprocessBackend); no MPS
+    claim. On Apple Silicon the
     upstream package runs on CPU (slow but correct); the faster MLX path is
     a community port we deliberately don't auto-wire here.
 
@@ -74,7 +76,7 @@ class DotsTTSBackend(SubprocessBackend):
     # dots.tts emits 48 kHz (verified via checkpoint vocoder.sample_rate).
     _DEFAULT_SAMPLE_RATE = 48000
     # CUDA + CPU only; no MPS branch in upstream runtime.py.
-    gpu_compat = ("cuda", "cpu")
+    gpu_compat = ("cuda", "rocm", "cpu")
 
     # ── availability ───────────────────────────────────────────────────────
 
@@ -118,6 +120,13 @@ class DotsTTSBackend(SubprocessBackend):
     def venv_python(cls):
         from engines.dots_tts.bootstrap import resolve_dots_tts_venv
         return resolve_dots_tts_venv()
+
+    @classmethod
+    def sidecar_python_hint(cls):
+        from services.subprocess_backend import bootstrap_python_hint
+
+        from engines.dots_tts import bootstrap
+        return bootstrap_python_hint(bootstrap)
 
     @classmethod
     def sidecar_script(cls):

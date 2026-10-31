@@ -362,6 +362,19 @@ def _heartbeat_while_resolving(engine_id: str):
         t.join()
 
 
+def bootstrap_python_hint(bootstrap) -> Optional[Path]:
+    """The interpreter an engine bootstrap module would use, without probing.
+
+    The one it already resolved, else the first candidate on disk in its own
+    probe order (user clone, then the managed venv). For
+    ``SubprocessBackend.sidecar_python_hint`` overrides.
+    """
+    resolved = getattr(bootstrap, "_resolved_python", None)
+    if resolved is not None:
+        return Path(resolved)
+    return next((p for p in bootstrap._probe_paths() if p.is_file()), None)
+
+
 class SubprocessBackend(TTSBackend):
     """Long-lived sidecar-process TTS backend. Subclasses provide
     ``venv_python()`` and ``sidecar_script()``; the base class owns
@@ -471,6 +484,60 @@ class SubprocessBackend(TTSBackend):
         whose ``venv_python()`` can return ``sys.executable`` override it.
         """
         return False
+
+    @classmethod
+    def sidecar_python_hint(cls) -> Optional[Path]:
+        """The interpreter the sidecar would run, if it can be told cheaply.
+
+        Used only for routing metadata, so it must never spawn, probe or
+        bootstrap a venv (unlike some ``venv_python()`` implementations).
+        ``None`` means unknown. Subclasses with a cheap lookup override it.
+        """
+        return None
+
+    @classmethod
+    def _sidecar_torch_lacks_hip(cls) -> bool:
+        """Whether this engine's own torch cannot drive an AMD GPU.
+
+        A ``rocm`` claim in ``gpu_compat`` holds only when the sidecar venv
+        carries a ROCm (HIP) torch: a CUDA or CPU wheel sees no AMD GPU, so
+        the engine would run on the CPU while routing reported acceleration.
+        Reads the wheel's ``version.py``, never imports torch. An unknown
+        venv keeps the claim except under explicit Windows ROCm opt-in,
+        matching IndexTTS (#2371).
+        """
+        if cls.shares_parent_torch():
+            return False
+        windows_rocm = (
+            sys.platform == "win32"
+            and os.environ.get("OMNIVOICE_TORCH_VARIANT", "").strip().lower() == "rocm"
+        )
+        try:
+            python = cls.sidecar_python_hint()
+            if python is None:
+                return windows_rocm
+            from services.sidecar_install import venv_torch_hip
+
+            hip = venv_torch_hip(Path(python).parent.parent)
+        except Exception:  # noqa: BLE001 — metadata only, never break the picker
+            return windows_rocm
+        return hip is False or (hip is None and windows_rocm)
+
+    @classmethod
+    def runtime_compute_profile(cls, caps) -> dict:
+        profile = super().runtime_compute_profile(caps)
+        compat = tuple(profile["gpu_compat"])
+        if caps.family == "rocm" and "rocm" in compat and cls._sidecar_torch_lacks_hip():
+            from services.engine_routing import resolve_routing
+
+            compat = tuple(c for c in compat if c != "rocm")
+            profile.update(
+                gpu_compat=compat,
+                **resolve_routing(
+                    compat, caps, profile["min_vram_gb"], parent_torch=False,
+                ),
+            )
+        return profile
 
     @classmethod
     def sidecar_script(cls) -> Path:

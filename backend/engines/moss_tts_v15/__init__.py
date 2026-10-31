@@ -125,6 +125,13 @@ class MossTTSV15Backend(SubprocessBackend):
         return resolve_moss_tts_v15_venv()
 
     @classmethod
+    def sidecar_python_hint(cls):
+        from services.subprocess_backend import bootstrap_python_hint
+
+        from engines.moss_tts_v15 import bootstrap
+        return bootstrap_python_hint(bootstrap)
+
+    @classmethod
     def sidecar_script(cls):
         from engines.moss_tts_v15.bootstrap import MOSS_TTS_V15_SIDECAR_SCRIPT
         return MOSS_TTS_V15_SIDECAR_SCRIPT
