@@ -216,7 +216,9 @@ def _installed_rocm_arches(version: str) -> set[str]:
             if metadata.version(f"rocm-sdk-device-{arch}") == "10.0.0":
                 result.add(arch)
         except metadata.PackageNotFoundError:
-            pass
+            # No matching SDK device package: this arch's kernels are absent,
+            # so it is deliberately left out of the result.
+            continue
     return result
 
 
