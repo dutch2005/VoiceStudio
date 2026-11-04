@@ -4,8 +4,7 @@
     <a href="https://trendshift.io/repositories/28176?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-28176" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/28176" alt="Trendshift-Abzeichen, das zeigt, wo VoiceStudio zu den Trend-Repositories zählt" width="220" height="48" /></a>
   </p>
   <p>
-    <strong>🎉 <a href="https://github.com/debpalash/VoiceStudio/stargazers">100.000 GitHub-Sterne — vielen Dank!</a></strong><br />
-    <sub>Vielen Dank, dass Sie VoiceStudio nutzen, es teilen, Fehler melden, Code beisteuern und das Projekt unterstützen.</sub>
+    <strong>🎉 <a href="https://github.com/debpalash/VoiceStudio/stargazers">100.000 GitHub-Sterne — vielen Dank!</a></strong>
   </p>
   <p><strong>KI-Stimmenstudio. Auf Ihrem Gerät.</strong><br />
   Stimmen klonen und gestalten, synchronisieren, diktieren, transkribieren und vorlesen – in 646 Sprachen.<br />
@@ -14,9 +13,7 @@
     <a href="https://voicestudio.sh/?utm_source=github&utm_medium=readme&utm_campaign=project">Website</a> ·
     <a href="https://github.com/debpalash/VoiceStudio/releases/latest">Herunterladen</a> ·
     <a href="#get-started">Erste Schritte</a> ·
-    <a href="#documentation">Dokumentation</a> ·
-    <a href="https://discord.gg/bzQavDfVV9">Discord</a> ·
-    <a href="#readme-languages">20 Sprachen</a>
+    <a href="#documentation">Dokumentation</a>
   </p>
   <!-- README_LANGUAGES_START -->
   <a id="readme-languages"></a>
@@ -31,6 +28,7 @@
     <a href="https://github.com/debpalash/VoiceStudio/releases/latest"><img src="https://img.shields.io/github/v/release/debpalash/VoiceStudio?style=flat-square&amp;labelColor=27272a&amp;color=52525b" alt="Neueste Veröffentlichung" /></a>
     <a href="../../LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-52525b?style=flat-square&amp;labelColor=27272a" alt="AGPL-3.0" /></a>
     <a href="https://supermetry.com"><img src="https://app.supermetry.com/px/zfjiv7psp4ed.svg?c=VoiceStudio" alt="Aufrufe" /></a>
+    <a href="https://discord.gg/bzQavDfVV9"><img src="https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?style=flat-square&amp;logo=discord&amp;logoColor=white" alt="Join Discord" /></a>
   </p>
   <p>
     <sub>Strategische Sponsoren</sub>      <a href="https://github.com/debpalash/OpenGTM?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opengtm-dark.svg" /><img src="../../docs/sponsors/opengtm.svg" alt="OpenGTM" height="32" align="middle" /></picture></a>
@@ -106,11 +104,15 @@ Wählen Sie Ihre Motoren und laden Sie nur die Modelle herunter, die Sie benöti
 
 Beginnen Sie mit **VoiceStudio** (Standard, unterstützt von k2-fsa/OmniVoice) oder wählen Sie im Model Manager aus Dutzenden anderer Engines aus. Siehe den [Features- und Engine-Katalog](../../docs/feature-catalog.md).
 
+<p align="center"><a href="https://discord.gg/bzQavDfVV9"><img src="https://img.shields.io/badge/Join%20our%20Discord-5865F2?style=for-the-badge&amp;logo=discord&amp;logoColor=white" alt="Join Discord" height="40" /></a></p>
+
 <a id="platforms"></a>
 
 ## Plattformen
 
 Wählen Sie Ihr System und erweitern Sie dann eine Installationsmethode.
+
+Native GGUF-Engines unterstützen zusätzlich enginespezifische Vulkan-Beschleunigung auf AMD-, Intel- und NVIDIA-GPUs ([OmniVoice](../../docs/engines/omnivoice-gguf.md#vulkan-acceleration), [CosyVoice](../../docs/engines/cosyvoice-gguf.md)). OmniVoice GGUF wählt unter Windows und Linux automatisch GPU und Modellgröße aus. Wenn eine versteckte Prüfung hängen bleibt, wiederholt die Vulkan-Erkennung den Versuch mit einer nativen Zusammenfassung; Windows- und Linux-Desktop-Builds schlagen fehl, statt unbemerkt ohne Vulkan-Modul ausgeliefert zu werden.
 
 <a id="install-macos"></a>
 
@@ -529,3 +531,5 @@ Vielen Dank an alle, die Code, Berichte, Übersetzungen und Ideen senden. [Alle 
 ## Community-Tutorials
 
 - [Komplettlösung für VoiceStudio von Nafay 3D (YouTube)](https://www.youtube.com/watch?v=I-u-A-oisIU)
+
+<p align="center"><a href="https://discord.gg/bzQavDfVV9"><img src="https://img.shields.io/badge/Join%20our%20Discord-5865F2?style=for-the-badge&amp;logo=discord&amp;logoColor=white" alt="Join Discord" height="40" /></a></p>

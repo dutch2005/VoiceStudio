@@ -4,8 +4,7 @@
     <a href="https://trendshift.io/repositories/28176?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-28176" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/28176" alt="Trendshift-badge die laat zien waar VoiceStudio tot de trending repository&#x27;s behoort" width="220" height="48" /></a>
   </p>
   <p>
-    <strong>🎉 <a href="https://github.com/debpalash/VoiceStudio/stargazers">100.000 GitHub-sterren — bedankt!</a></strong><br />
-    <sub>Bedankt voor het gebruiken van VoiceStudio, het delen ervan, het melden van bugs, het bijdragen van code en het ondersteunen van het project.</sub>
+    <strong>🎉 <a href="https://github.com/debpalash/VoiceStudio/stargazers">100.000 GitHub-sterren — bedankt!</a></strong>
   </p>
   <p><strong>AI-stemstudio. Op je eigen apparaat.</strong><br />
   Kloon en ontwerp stemmen, maak nasynchronisaties, dicteer, transcribeer en lees voor in 646 talen.<br />
@@ -14,9 +13,7 @@
     <a href="https://voicestudio.sh/?utm_source=github&utm_medium=readme&utm_campaign=project">Website</a> ·
     <a href="https://github.com/debpalash/VoiceStudio/releases/latest">Downloaden</a> ·
     <a href="#get-started">Aan de slag</a> ·
-    <a href="#documentation">Documentatie</a> ·
-    <a href="https://discord.gg/bzQavDfVV9">Discord</a> ·
-    <a href="#readme-languages">20 talen</a>
+    <a href="#documentation">Documentatie</a>
   </p>
   <!-- README_LANGUAGES_START -->
   <a id="readme-languages"></a>
@@ -31,6 +28,7 @@
     <a href="https://github.com/debpalash/VoiceStudio/releases/latest"><img src="https://img.shields.io/github/v/release/debpalash/VoiceStudio?style=flat-square&amp;labelColor=27272a&amp;color=52525b" alt="Nieuwste uitgave" /></a>
     <a href="../../LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-52525b?style=flat-square&amp;labelColor=27272a" alt="AGPL-3.0" /></a>
     <a href="https://supermetry.com"><img src="https://app.supermetry.com/px/zfjiv7psp4ed.svg?c=VoiceStudio" alt="weergaven" /></a>
+    <a href="https://discord.gg/bzQavDfVV9"><img src="https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?style=flat-square&amp;logo=discord&amp;logoColor=white" alt="Join Discord" /></a>
   </p>
   <p>
     <sub>Strategische sponsors</sub>      <a href="https://github.com/debpalash/OpenGTM?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opengtm-dark.svg" /><img src="../../docs/sponsors/opengtm.svg" alt="OpenGTM" height="32" align="middle" /></picture></a>
@@ -106,11 +104,15 @@ Kies uw motoren en download alleen de modellen die u nodig heeft.
 
 Begin met **VoiceStudio** (standaard, mogelijk gemaakt door k2-fsa/OmniVoice), of kies uit tientallen andere zoekmachines in Model Manager. Zie de [features & engine catalogue](../../docs/feature-catalog.md).
 
+<p align="center"><a href="https://discord.gg/bzQavDfVV9"><img src="https://img.shields.io/badge/Join%20our%20Discord-5865F2?style=for-the-badge&amp;logo=discord&amp;logoColor=white" alt="Join Discord" height="40" /></a></p>
+
 <a id="platforms"></a>
 
 ## Platformen
 
 Kies uw systeem en breid vervolgens een installatiemethode uit.
+
+Native GGUF-engines ondersteunen daarnaast enginespecifieke Vulkan-versnelling op GPU’s van AMD, Intel en NVIDIA ([OmniVoice](../../docs/engines/omnivoice-gguf.md#vulkan-acceleration), [CosyVoice](../../docs/engines/cosyvoice-gguf.md)). OmniVoice GGUF kiest op Windows en Linux automatisch de GPU en modelgrootte. Als een verborgen controle vastloopt, probeert Vulkan-detectie het opnieuw met een native samenvatting; desktopbuilds voor Windows en Linux mislukken als de Vulkan-module ontbreekt, zodat deze niet ongemerkt wordt weggelaten.
 
 <a id="install-macos"></a>
 
@@ -529,3 +531,5 @@ Bedankt aan iedereen die code, rapporten, vertalingen en ideeën stuurt. [Alle b
 ## Community-tutorials
 
 - [VoiceStudio walkthrough door Nafay 3D (YouTube)](https://www.youtube.com/watch?v=I-u-A-oisIU)
+
+<p align="center"><a href="https://discord.gg/bzQavDfVV9"><img src="https://img.shields.io/badge/Join%20our%20Discord-5865F2?style=for-the-badge&amp;logo=discord&amp;logoColor=white" alt="Join Discord" height="40" /></a></p>

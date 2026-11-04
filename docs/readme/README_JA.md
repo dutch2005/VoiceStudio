@@ -4,8 +4,7 @@
     <a href="https://trendshift.io/repositories/28176?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-28176" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/28176" alt="Trendshift における VoiceStudio の人気ランキングバッジ" width="220" height="48" /></a>
   </p>
   <p>
-    <strong>🎉 <a href="https://github.com/debpalash/VoiceStudio/stargazers">GitHub スター10万達成。ありがとうございます！</a></strong><br />
-    <sub>VoiceStudio のご利用、共有、不具合の報告、コードへの貢献、そしてプロジェクトへのご支援に感謝します。</sub>
+    <strong>🎉 <a href="https://github.com/debpalash/VoiceStudio/stargazers">GitHub スター10万達成。ありがとうございます！</a></strong>
   </p>
   <p><strong>AI ボイススタジオを、あなたの端末で。</strong><br />
   646 言語で、音声クローン、ボイスデザイン、吹き替え、音声入力、文字起こし、ナレーション。<br />
@@ -14,9 +13,7 @@
     <a href="https://voicestudio.sh/?utm_source=github&utm_medium=readme&utm_campaign=project">公式サイト</a> ·
     <a href="https://github.com/debpalash/VoiceStudio/releases/latest">ダウンロード</a> ·
     <a href="#はじめに">導入ガイド</a> ·
-    <a href="#ドキュメント">ドキュメント</a> ·
-    <a href="https://discord.gg/bzQavDfVV9">Discord</a> ·
-    <a href="#readme-languages">20言語</a>
+    <a href="#ドキュメント">ドキュメント</a>
   </p>
   <!-- README_LANGUAGES_START -->
   <a id="readme-languages"></a>
@@ -32,6 +29,7 @@
     <a href="https://github.com/debpalash/VoiceStudio/releases/latest"><img src="https://img.shields.io/github/v/release/debpalash/VoiceStudio?style=flat-square&amp;labelColor=27272a&amp;color=52525b" alt="最新リリース" /></a>
     <a href="../../LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-52525b?style=flat-square&amp;labelColor=27272a" alt="AGPL-3.0 ライセンス" /></a>
     <a href="https://supermetry.com"><img src="https://app.supermetry.com/px/zfjiv7psp4ed.svg?c=VoiceStudio" alt="閲覧数" /></a>
+    <a href="https://discord.gg/bzQavDfVV9"><img src="https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?style=flat-square&amp;logo=discord&amp;logoColor=white" alt="Join Discord" /></a>
   </p>
   <p>
     <sub>戦略スポンサー</sub>      <a href="https://github.com/debpalash/OpenGTM?utm_source=voicestudio&utm_medium=sponsor&utm_campaign=strategic-sponsor&utm_content=readme-logo"><picture><source media="(prefers-color-scheme: dark)" srcset="../../docs/sponsors/opengtm-dark.svg" /><img src="../../docs/sponsors/opengtm.svg" alt="OpenGTM" height="32" align="middle" /></picture></a>
@@ -107,11 +105,15 @@
 
 まずはデフォルトの **VoiceStudio**（k2-fsa/OmniVoice ベース）から。モデルマネージャーでは、ほかにも数十のエンジンから選べます。[機能とエンジンの一覧](../../docs/feature-catalog.md)を参照してください。
 
+<p align="center"><a href="https://discord.gg/bzQavDfVV9"><img src="https://img.shields.io/badge/Join%20our%20Discord-5865F2?style=for-the-badge&amp;logo=discord&amp;logoColor=white" alt="Join Discord" height="40" /></a></p>
+
 <a id="platforms"></a>
 
 ## 対応プラットフォーム
 
 OS を選び、使いたいインストール方法を展開してください。
+
+ネイティブ GGUF エンジンは、AMD、Intel、NVIDIA の GPU でエンジン固有の Vulkan アクセラレーションも利用できます（[OmniVoice](../../docs/engines/omnivoice-gguf.md#vulkan-acceleration), [CosyVoice](../../docs/engines/cosyvoice-gguf.md)）。OmniVoice GGUF は Windows と Linux で GPU とモデルサイズを自動選択します。非表示の検査が停止した場合、Vulkan 検出はネイティブの概要を使って再試行します。Windows と Linux のデスクトップビルドは、Vulkan モジュールを欠いたまま公開されることを防ぐため、モジュールがないと失敗します。
 
 <a id="install-macos"></a>
 
@@ -532,3 +534,5 @@ VoiceStudio の開発者による、その他のオープンソースツール�
 ## コミュニティのチュートリアル
 
 - [VoiceStudio の使い方 — Nafay 3D（YouTube）](https://www.youtube.com/watch?v=I-u-A-oisIU)
+
+<p align="center"><a href="https://discord.gg/bzQavDfVV9"><img src="https://img.shields.io/badge/Join%20our%20Discord-5865F2?style=for-the-badge&amp;logo=discord&amp;logoColor=white" alt="Join Discord" height="40" /></a></p>
